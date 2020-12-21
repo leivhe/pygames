@@ -5,60 +5,66 @@ import pygame
 WIDTH = 801
 HEIGHT = 601
 
-rød = 'rødprikk'
-gul = 'gulprikk'
-grønn = 'grønnprikk'
-hvit = 'hvitprikk'
-blå = 'blåprikk'
-svart = 'svartprikk'
-oransje = 'oransjeprikk'
-rosa = 'rosaprikk'
+farge = 'farge'
+rect = 'rect'
+navn = 'navn'
+
+rød = { navn: "rød", farge: (255, 0, 0) }
+gul = { navn: "gul", farge: (255, 255, 0) }
+grønn = { navn: "grønn", farge: (0, 255, 0) }
+hvit = { navn: "hvit", farge: (255, 255, 255) }
+blå = { navn: "blå", farge: (0, 0, 255) }
+svart = { navn: "svart", farge: (0, 0, 0) }
+oransje = { navn: "oransje", farge: (255, 165, 0) }
+
+rosa = { navn: "rosa", farge: (255, 182, 193) }
+
 alleFarger = [rød, gul, grønn, hvit, blå, svart, oransje, rosa]
 
-
-#gjett1 = Actor(alleFarger[randint(0,7)], (75, 100))
-#gjett2 = Actor(alleFarger[randint(0,7)], (200, 100))
-#gjett3 = Actor(alleFarger[randint(0,7)], (340, 100))
-#gjett4 = Actor(alleFarger[randint(0,7)], (460, 100))
-gjett1 = Actor(hvit, (75, 100))
-gjett2 = Actor(hvit, (225, 100))
-gjett3 = Actor(hvit, (375, 100))
-gjett4 = Actor(hvit, (525, 100))
-alleGjett = [gjett1,gjett2,gjett3,gjett4]
+gjett1 = { navn: "gjett1", rect: Rect((50, 100), (50, 50)), farge: hvit }
+gjett2 = { navn: "gjett2", rect: Rect((110, 100), (50, 50)), farge: hvit }
+gjett3 = { navn: "gjett3", rect: Rect((170, 100), (50, 50)), farge: hvit }
+gjett4 = { navn: "gjett3", rect: Rect((230, 100), (50, 50)), farge: hvit }
+alleGjett = [gjett1, gjett2, gjett3, gjett4]
 
 riktigFargePaRiktigPlass = 'riktig farge på riktig plass'
 riktigFargePaFeilPlass = 'riktig farge på feil plass'
 
-ferdigKnapp = Actor('alien', (675, 100))
+ferdigKnapp = Rect((500, 100), (100, 50))
 
-hemmeligKode = [alleFarger[randint(0,7)], alleFarger[randint(0,7)], alleFarger[randint(0,7)], alleFarger[randint(0,7)]]
+
+def tilfeldigFarge():
+    return alleFarger[randint(0, 7)]
+
+
+hemmeligKode = [tilfeldigFarge(), tilfeldigFarge(),
+    tilfeldigFarge(), tilfeldigFarge()]
 
 gjetninger = []
 
-firkant = Rect((20,20),(50,50))
+firkant = Rect((20, 20), (50, 50))
+
 
 def draw():
-    screen.clear()
-    gjett1.draw()
-    gjett2.draw()
-    gjett3.draw()
-    gjett4.draw()
-    ferdigKnapp.draw()
-    screen.draw.filled_rect(firkant, "red")
+    screen.draw.filled_rect(gjett1[rect], gjett1[farge][farge])
+    screen.draw.filled_rect(gjett2[rect], gjett2[farge][farge])
+    screen.draw.filled_rect(gjett3[rect], gjett3[farge][farge])
+    screen.draw.filled_rect(gjett4[rect], gjett4[farge][farge])
+    screen.draw.textbox("Ferdig",ferdigKnapp,color="orange")
 
+def nesteFarge(farge):
+    return alleFarger[(alleFarger.index(farge) + 1) % len(alleFarger)]
 
-
-#
 def on_mouse_down(pos):
-
+    print("on_mouse_down")
     for gjett in alleGjett:
-        if gjett.collidepoint(pos):
-            gjett.image = alleFarger[(alleFarger.index(gjett.image) + 1) % len(alleFarger)]
-            # print("bytter farge til " + gjett.image)
+        if gjett[rect].collidepoint(pos):
+            gjett[farge] = nesteFarge(gjett[farge])
+            print(f"bytter farge til {gjett[farge]}")
 
     if ferdigKnapp.collidepoint(pos):
-        gjetninger.append([gjett1.image, gjett2.image, gjett3.image, gjett4.image])
-        print("ferdig med gjetning: " + str(len(gjetninger)))
+        print(f"ferdig med gjetning: {len(gjetninger)}")
+        gjetninger.append([gjett1[farge],gjett2[farge],gjett3[farge],gjett4[farge]])
         print(gjetninger[len(gjetninger) - 1])
         sjekkKodeOgGiTilbakemelding()
         flyttGjetninger()
@@ -66,10 +72,12 @@ def on_mouse_down(pos):
     if firkant.collidepoint(pos):
         firkant.x += 50
 
+
 def flyttGjetninger():
     for gjett in alleGjett:
-        print("her er posisjon: " + str(gjett.center))
-        gjett.y += 100
+        gjett[rect].y += 70
+    ferdigKnapp.y += 70
+
 
 def sjekkKodeOgGiTilbakemelding():
     gjett = gjetninger[len(gjetninger) - 1]
@@ -96,6 +104,4 @@ def sjekkKodeOgGiTilbakemelding():
         if kodekopi[n] == riktigFargePaFeilPlass:
             antallRiktigFargePaFeilPlass += 1
 
-    print("ferdig med sjekk, gjett er nå: " + str(gjett) + ", kodekopi ser slik ut: " + str(kodekopi))
-    print("antallHeltRiktige " + str(antallRiktigFargePaRiktigPlass))
-    print("antallLittRiktige " + str(antallRiktigFargePaFeilPlass))
+    screen.draw.text(f"{antallRiktigFargePaRiktigPlass} RR, {antallRiktigFargePaFeilPlass} RF", (ferdigKnapp.x-100, ferdigKnapp.y), color="orange")
