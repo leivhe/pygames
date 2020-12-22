@@ -14,12 +14,11 @@ gul = { navn: "gul", farge: (255, 255, 0) }
 grønn = { navn: "grønn", farge: (0, 255, 0) }
 hvit = { navn: "hvit", farge: (255, 255, 255) }
 blå = { navn: "blå", farge: (0, 0, 255) }
-svart = { navn: "svart", farge: (0, 0, 0) }
+grå = { navn: "grå", farge: (100, 100, 100) }
 oransje = { navn: "oransje", farge: (255, 165, 0) }
+rosa = { navn: "rosa", farge: (255, 110, 199) }
 
-rosa = { navn: "rosa", farge: (255, 182, 193) }
-
-alleFarger = [rød, gul, grønn, hvit, blå, svart, oransje, rosa]
+alleFarger = [rød, gul, grønn, hvit, blå, grå, oransje, rosa]
 
 gjett1 = { navn: "gjett1", rect: Rect((50, 100), (50, 50)), farge: hvit }
 gjett2 = { navn: "gjett2", rect: Rect((110, 100), (50, 50)), farge: hvit }
@@ -56,16 +55,16 @@ def nesteFarge(farge):
     return alleFarger[(alleFarger.index(farge) + 1) % len(alleFarger)]
 
 def on_mouse_down(pos):
-    print("on_mouse_down")
+    #print("on_mouse_down")
     for gjett in alleGjett:
         if gjett[rect].collidepoint(pos):
             gjett[farge] = nesteFarge(gjett[farge])
-            print(f"bytter farge til {gjett[farge]}")
+            #print(f"bytter farge til {gjett[farge]}")
 
     if ferdigKnapp.collidepoint(pos):
-        print(f"ferdig med gjetning: {len(gjetninger)}")
+        #print(f"ferdig med gjetning: {len(gjetninger)}")
         gjetninger.append([gjett1[farge],gjett2[farge],gjett3[farge],gjett4[farge]])
-        print(gjetninger[len(gjetninger) - 1])
+        #print(gjetninger[len(gjetninger) - 1])
         sjekkKodeOgGiTilbakemelding()
         flyttGjetninger()
 
@@ -84,10 +83,10 @@ def sjekkKodeOgGiTilbakemelding():
     kodekopi = hemmeligKode.copy()
     antallRiktigFargePaRiktigPlass = 0
     antallRiktigFargePaFeilPlass = 0
-    print ("skal sjekke " + str(gjett) + ", opp mot " + str(hemmeligKode))
+    #print ("skal sjekke " + str(gjett) + ", opp mot " + str(hemmeligKode))
     for n in range(len(gjett)):
         if gjett[n] == kodekopi[n]:
-            print("riktig farge på riktig plass for " + str(n))
+            #print("riktig farge på riktig plass for " + str(n))
             gjett[n] = riktigFargePaRiktigPlass
             kodekopi[n] = riktigFargePaRiktigPlass
 
