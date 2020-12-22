@@ -2,8 +2,8 @@ from random import randint
 
 import pygame
 
-WIDTH = 801
-HEIGHT = 601
+WIDTH = 800
+HEIGHT = 770
 
 farge = 'farge'
 rect = 'rect'
@@ -20,16 +20,16 @@ rosa = { navn: "rosa", farge: (255, 110, 199) }
 
 alleFarger = [rød, gul, grønn, hvit, blå, grå, oransje, rosa]
 
-gjett1 = { navn: "gjett1", rect: Rect((50, 500), (50, 50)), farge: hvit }
-gjett2 = { navn: "gjett2", rect: Rect((110, 500), (50, 50)), farge: hvit }
-gjett3 = { navn: "gjett3", rect: Rect((170, 500), (50, 50)), farge: hvit }
-gjett4 = { navn: "gjett3", rect: Rect((230, 500), (50, 50)), farge: hvit }
+gjett1 = { navn: "gjett1", rect: Rect((50, 700), (50, 50)), farge: hvit }
+gjett2 = { navn: "gjett2", rect: Rect((110, 700), (50, 50)), farge: hvit }
+gjett3 = { navn: "gjett3", rect: Rect((170, 700), (50, 50)), farge: hvit }
+gjett4 = { navn: "gjett3", rect: Rect((230, 700), (50, 50)), farge: hvit }
 alleGjett = [gjett1, gjett2, gjett3, gjett4]
 
 riktigFargePaRiktigPlass = 'riktig farge på riktig plass'
 riktigFargePaFeilPlass = 'riktig farge på feil plass'
 
-ferdigKnapp = Rect((500, 100), (100, 50))
+ferdigKnapp = Rect((500, 400), (100, 50))
 
 
 def tilfeldigFarge():
