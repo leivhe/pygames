@@ -20,10 +20,10 @@ rosa = { navn: "rosa", farge: (255, 110, 199) }
 
 alleFarger = [rød, gul, grønn, hvit, blå, grå, oransje, rosa]
 
-gjett1 = { navn: "gjett1", rect: Rect((50, 100), (50, 50)), farge: hvit }
-gjett2 = { navn: "gjett2", rect: Rect((110, 100), (50, 50)), farge: hvit }
-gjett3 = { navn: "gjett3", rect: Rect((170, 100), (50, 50)), farge: hvit }
-gjett4 = { navn: "gjett3", rect: Rect((230, 100), (50, 50)), farge: hvit }
+gjett1 = { navn: "gjett1", rect: Rect((50, 500), (50, 50)), farge: hvit }
+gjett2 = { navn: "gjett2", rect: Rect((110, 500), (50, 50)), farge: hvit }
+gjett3 = { navn: "gjett3", rect: Rect((170, 500), (50, 50)), farge: hvit }
+gjett4 = { navn: "gjett3", rect: Rect((230, 500), (50, 50)), farge: hvit }
 alleGjett = [gjett1, gjett2, gjett3, gjett4]
 
 riktigFargePaRiktigPlass = 'riktig farge på riktig plass'
@@ -41,15 +41,17 @@ hemmeligKode = [tilfeldigFarge(), tilfeldigFarge(),
 
 gjetninger = []
 
-firkant = Rect((20, 20), (50, 50))
+
 
 
 def draw():
+    #print ("draw!")
     screen.draw.filled_rect(gjett1[rect], gjett1[farge][farge])
     screen.draw.filled_rect(gjett2[rect], gjett2[farge][farge])
     screen.draw.filled_rect(gjett3[rect], gjett3[farge][farge])
     screen.draw.filled_rect(gjett4[rect], gjett4[farge][farge])
     screen.draw.textbox("Ferdig",ferdigKnapp,color="orange")
+
 
 def nesteFarge(farge):
     return alleFarger[(alleFarger.index(farge) + 1) % len(alleFarger)]
@@ -68,14 +70,11 @@ def on_mouse_down(pos):
         sjekkKodeOgGiTilbakemelding()
         flyttGjetninger()
 
-    if firkant.collidepoint(pos):
-        firkant.x += 50
 
 
 def flyttGjetninger():
     for gjett in alleGjett:
-        gjett[rect].y += 70
-    ferdigKnapp.y += 70
+        gjett[rect].y -= 70
 
 
 def sjekkKodeOgGiTilbakemelding():
@@ -103,4 +102,4 @@ def sjekkKodeOgGiTilbakemelding():
         if kodekopi[n] == riktigFargePaFeilPlass:
             antallRiktigFargePaFeilPlass += 1
 
-    screen.draw.text(f"{antallRiktigFargePaRiktigPlass} RR, {antallRiktigFargePaFeilPlass} RF", (ferdigKnapp.x-100, ferdigKnapp.y), color="orange")
+    screen.draw.text(f"{antallRiktigFargePaRiktigPlass} RR, {antallRiktigFargePaFeilPlass} RF", (gjett4[rect].x + 100, gjett4[rect].y), color="orange")
