@@ -66,7 +66,6 @@ def on_mouse_down(pos):
         gjetninger.append([gjett1[farge],gjett2[farge],gjett3[farge],gjett4[farge]])
         #print(gjetninger[len(gjetninger) - 1])
         sjekkKodeOgGiTilbakemelding()
-        print(f"on_mouse_down {gameover}")
         if gameover:
             visBareStartIgjenKnapp()
         else:
@@ -115,7 +114,7 @@ def sjekkKodeOgGiTilbakemelding():
 
     screen.draw.text(f"{antallRiktigFargePaRiktigPlass} RR, {antallRiktigFargePaFeilPlass} RF", (gjett4[rect].x + 100, gjett4[rect].y), color="orange")
     if antallRiktigFargePaRiktigPlass == 4:
-        screen.draw.textbox("Du klarte det! Start på nytt her", ferdigKnapp, color="orange")
+        screen.draw.textbox("Du klarte det! Start på nytt her", StartPåNyttKnapp, color="orange")
         gameover = True
     if len(gjetninger) == 10:
         screen.draw.textbox("Du klarte det desverre ikke. Prøv på nytt her", StartPåNyttKnapp, color="orange")
@@ -123,7 +122,6 @@ def sjekkKodeOgGiTilbakemelding():
 
 def initState():
     global gameover
-    print("initState")
     screen.clear()
     hemmeligKode = tilfeldigFarge(), tilfeldigFarge(), tilfeldigFarge(), tilfeldigFarge()
     gjetninger.clear()
@@ -134,5 +132,6 @@ def initState():
     gjett4[rect].x = 230
     for gjett in alleGjett:
         gjett[rect].y = 700
+        gjett[farge] = hvit
     ferdigKnapp.x = 500
     ferdigKnapp.y = 400
